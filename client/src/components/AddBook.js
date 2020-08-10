@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
-import { getAuthorsQuery, addBookMutation } from '../queries/queries'
-
-
+import { getAuthorsQuery, addBookMutation, getBooksQuery } from '../queries/queries'
 
 export default function AddBook() {
 
@@ -10,20 +8,23 @@ export default function AddBook() {
     let [genre, setGenre] = useState("")
     let [authorId, setAuthorId] = useState(0)
 
-    const {loading, error, data} = useQuery(getAuthorsQuery)
+    let {loading, error, data} = useQuery(getAuthorsQuery)
     const [addBook] = useMutation(addBookMutation);
-
+    
     const handleClick = (e) => {
         e.preventDefault();
         console.log(bookname, genre, authorId)
-        addBook({ variables: { 
+        addBook({ 
+            variables: { 
                 name: bookname, 
                 genre: genre,
                 authorId: authorId
-            }
+            },
+            refetchQueries: [{
+                query: getBooksQuery
+            }] 
         })
     }
-
 
     return (
         <form id="add-book">
@@ -45,7 +46,6 @@ export default function AddBook() {
                 </select>
             </div>
             <button onClick={handleClick}>+</button>
-
         </form>
     )
 }

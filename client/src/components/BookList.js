@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { getBooksQuery } from '../queries/queries'
 
+import BookDetails from './BookDetails'
+
 function BookList() {
     const { loading, error, data } = useQuery(getBooksQuery)
+    let [bookId, setBookId] = useState("")
     // setBooks(data)
 
     // useEffect( () => {
@@ -20,9 +23,10 @@ function BookList() {
         <div>
             <ul id="book-list">
                 {data && data.books.map(book => (
-                    <li key={book.id}> {book.name} </li>
+                    <li key={book.id} onClick={() => setBookId(book.id)}> {book.name} </li>
                 ) )}
             </ul>
+            <BookDetails id={bookId}/>
         </div>
     )
 }
