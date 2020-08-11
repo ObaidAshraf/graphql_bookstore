@@ -29,11 +29,14 @@ jobs:
     - name: Installing all required packages
       run: npm install
 
+    - name: Installing all required packages for client
+      run: cd client; npm install
+
     - name: Installing surge
       run: npm install -g surge
     
     - name: Build react project
-      run: cd client; npm run build
+      run: npm run build
     
     - name: Deploy project
       run: surge ./build gql_bookstore.surge.sh --token ${{ secrets.SURGE_TOKEN }}
