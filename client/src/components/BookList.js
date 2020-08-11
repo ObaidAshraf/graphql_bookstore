@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { getBooksQuery } from '../queries/queries'
 
@@ -7,14 +7,6 @@ import BookDetails from './BookDetails'
 function BookList() {
     const { loading, error, data } = useQuery(getBooksQuery)
     let [bookId, setBookId] = useState("")
-    // setBooks(data)
-
-    // useEffect( () => {
-    //     console.log("Here")
-    //     console.log(data.books)
-    //     setBooks(data)
-
-    // }, [ data ])
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error</p>;

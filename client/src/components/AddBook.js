@@ -8,7 +8,7 @@ export default function AddBook() {
     let [genre, setGenre] = useState("")
     let [authorId, setAuthorId] = useState(0)
 
-    let {loading, error, data} = useQuery(getAuthorsQuery)
+    let {data} = useQuery(getAuthorsQuery)
     const [addBook] = useMutation(addBookMutation);
     
     const handleClick = (e) => {
