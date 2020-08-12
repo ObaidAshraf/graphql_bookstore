@@ -1,7 +1,8 @@
 const graphql = require('graphql')
 const _ = require('lodash')
 const Book = require('../models/book')
-const Author = require('../models/author')
+const Author = require('../models/author');
+const book = require('../models/book');
 
 const { 
     GraphQLObjectType, 
@@ -116,6 +117,15 @@ const Mutation = new GraphQLObjectType({
                  })
                  return book.save()
              }
+        },
+        deletebook: {
+            type: BookType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve (parent, args) {
+                return Book.findByIdAndDelete(args.id)
+            }
         }
     }
 })

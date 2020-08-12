@@ -13,7 +13,6 @@ export default function AddBook() {
     
     const handleClick = (e) => {
         e.preventDefault();
-        console.log(bookname, genre, authorId)
         addBook({ 
             variables: { 
                 name: bookname, 

@@ -1,9 +1,10 @@
 import React from 'react'
-import { useQuery } from '@apollo/client'
-import { getBookQuery } from '../queries/queries'
+import { useQuery, useMutation } from '@apollo/client'
+import { getBooksQuery, getBookQuery, deleteBookMutation } from '../queries/queries'
 
 
-function getBookDetails(data) {
+function getBookDetails(data, deleteBook) {
+
     if (data) {
         let { book } = data;
         return (
@@ -16,7 +17,19 @@ function getBookDetails(data) {
                     {book.author.books.map(book => (
                         <li key={book.id}> { book.name } </li>
                     ))}                                 
-                </ul>                                 
+                </ul>
+                <button id="delete-book" onClick={() => {
+                    deleteBook({
+                        variables: {
+                            id: book.id
+                        },
+                        refetchQueries: [{
+                            query: getBooksQuery
+                        }]
+                    })
+                }}>
+                    Delete Book
+                </button>
             </div>
         )
     } else {
@@ -31,9 +44,11 @@ export default function BookDetails({ id }) {
         }
     })
 
+    let [deleteBook] = useMutation(deleteBookMutation);
+
     return (
         <div id="book-details">
-            { getBookDetails(data) }
+            { getBookDetails(data, deleteBook) }
         </div>
     )
 }
